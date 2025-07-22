@@ -84,13 +84,13 @@ def detect_actions_and_trigger_keys(lmList):
     head = lmList[0]
     rw, re = lmList[16], lmList[14]
     lw, le = lmList[15], lmList[13]
-    ls = lmList[11]  # Left shoulder
+    ls = lmList[11]  
     ra = lmList[28]
     rk = lmList[26]
     rh = lmList[24]
     lh = lmList[23]
 
-    # ----- Punch Detection (Left Hand) -----
+    
     if prev_lw_x is not None and prev_lw_time is not None:
         time_diff = current_time - prev_lw_time
         dx = lw[1] - prev_lw_x
@@ -99,10 +99,10 @@ def detect_actions_and_trigger_keys(lmList):
         elbow_angle = find_angle([ls[1], ls[2]], [le[1], le[2]], [lw[1], lw[2]])
 
         if (not punch_lock and
-            abs(lw[2] - le[2]) < 40 and  # same vertical level
-            lw[1] - le[1] < -60 and     # wrist ahead of elbow
-            velocity < -300 and         # fast forward
-            elbow_angle > 160):         # arm almost straight
+            abs(lw[2] - le[2]) < 40 and  
+            lw[1] - le[1] < -60 and     
+            velocity < -300 and         
+            elbow_angle > 160):         
 
             press_key_once(Key.left)
             print(f"Left Punch! Velocity: {int(velocity)}, Angle: {int(elbow_angle)}")
@@ -115,7 +115,7 @@ def detect_actions_and_trigger_keys(lmList):
     prev_lw_x = lw[1]
     prev_lw_time = current_time
 
-    # ----- Kick Detection -----
+    
     hip = rh[1:]
     knee = rk[1:]
     ankle = ra[1:]
@@ -129,12 +129,12 @@ def detect_actions_and_trigger_keys(lmList):
     elif kick_lock and current_time - kick_lock_time > kick_cooldown:
         kick_lock = False
 
-    # ----- Block Detection -----
+    
     if rw[2] < head[2] and lw[2] < head[2]:
         press_key_once(Key.up)
         print("Block")
 
-    # ----- Movement Detection -----
+    
     mid_x = (lh[1] + rh[1]) // 2
     mid_y = (lh[2] + rh[2]) // 2
     new_keys = set()

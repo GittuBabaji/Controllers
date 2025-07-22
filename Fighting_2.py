@@ -92,13 +92,13 @@ def detect_actions_and_trigger_keys(lmList):
     head = lmList[0]
     rw, re = lmList[16], lmList[14]
     lw, le = lmList[15], lmList[13]
-    ls = lmList[11]  # Left shoulder
+    ls = lmList[11]  
     ra = lmList[28]
     rk = lmList[26]
     rh = lmList[24]
     lh = lmList[23]
 
-    # Punch detection
+    
     if prev_lw and prev_lw_time:
         dx = lw[1] - prev_lw[0]
         dt = current_time - prev_lw_time
@@ -117,7 +117,7 @@ def detect_actions_and_trigger_keys(lmList):
     prev_lw = (lw[1], lw[2])
     prev_lw_time = current_time
 
-    # Kick detection
+    
     hip = rh[1:]
     knee = rk[1:]
     ankle = ra[1:]
@@ -131,7 +131,7 @@ def detect_actions_and_trigger_keys(lmList):
     elif kick_lock and current_time - kick_lock_time > kick_cooldown:
         kick_lock = False
 
-    # Special detection (arms wide apart)
+    
     hand_distance = abs(rw[1] - lw[1])
     if hand_distance > 500 and not special_lock:
         press_key_once('j')
@@ -141,12 +141,12 @@ def detect_actions_and_trigger_keys(lmList):
     elif special_lock and current_time - special_lock_time > special_cooldown:
         special_lock = False
 
-    # Block detection
+    
     if rw[2] < head[2] and lw[2] < head[2]:
         press_key_once(Key.space)
         print("Block")
 
-    # Movement detection
+    
     mid_x = (lh[1] + rh[1]) // 2
     mid_y = (lh[2] + rh[2]) // 2
     new_keys = set()
